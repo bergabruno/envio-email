@@ -31,4 +31,14 @@ public class EmailController {
         return ResponseEntity.ok(lista);
 
     }
+
+
+    @GetMapping("/{date}")
+    public ResponseEntity<List<EmailModelDTO>> findAllByDate(@PathVariable String date){
+
+        List<EmailModelDTO> lista =  emailService.findAllByDate(date);
+
+        return ResponseEntity.ok(lista);
+
+    }
 }

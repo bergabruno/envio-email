@@ -20,4 +20,6 @@ public interface EmailService {
     EmailModel sendEmail(EmailModel emailModel);
 
     List<EmailModelDTO> findAll();
+
+    List<EmailModelDTO> findAllByDate(String date);
 }

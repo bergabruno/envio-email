@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,7 +32,8 @@ public class EmailServiceImpl implements EmailService {
     public EmailModel sendEmail(EmailModel emailModel) {
 
         log.info("Enviando email");
-        emailModel.setSendDateEmail(LocalDateTime.now());
+        String data = LocalDateTime.now().toString().substring(0, 10);
+        emailModel.setSendDateEmail(data);
         try{
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(emailModel.getEmailFrom());
@@ -59,6 +61,26 @@ public class EmailServiceImpl implements EmailService {
         List<EmailModel> lista = (List<EmailModel>) emailRepository.findAll();
 
         List<EmailModelDTO> listaDTO = lista
+                .stream()
+                .map(emailModel -> modelMapper.map(emailModel, EmailModelDTO.class))
+                .collect(Collectors.toList());
+
+        return listaDTO;
+    }
+
+    @Override
+    public List<EmailModelDTO> findAllByDate(String date) {
+        ModelMapper modelMapper = new ModelMapper();
+
+        List<EmailModel> listagem = new ArrayList<>();
+        Optional<List<EmailModel>> lista =  emailRepository.findAllBySendDateEmail(date);
+
+        if(lista.isPresent())
+            listagem = lista.get();
+        else
+            throw new RuntimeException("nao existe nenhum email com essa data");
+
+        List<EmailModelDTO> listaDTO = listagem
                 .stream()
                 .map(emailModel -> modelMapper.map(emailModel, EmailModelDTO.class))
                 .collect(Collectors.toList());

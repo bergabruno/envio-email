@@ -16,7 +16,7 @@ public class EmailModel {
     private String emailTo;
     private String subject;
     private String text;
-    private LocalDateTime sendDateEmail;
+    private String sendDateEmail;
     private StatusEmail statusEmail;
 
 }
