@@ -19,3 +19,11 @@ body:
 }
 
 API FEITA COM CONEXAO AO MONGODB.
+
+
+como filtrar por data:
+
+http://localhost:****/api/v1/email/{date}
+
+formato da data:
+yyyy-MM-dd
